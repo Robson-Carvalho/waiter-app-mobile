@@ -1,11 +1,10 @@
-import { Text } from "../components/Text";
-
 import { Container } from "./style";
+import { Header } from "../components/Header";
 
 export const Main = () => {
   return (
     <Container>
-      <Text>Steup finished!</Text>
+      <Header />
     </Container>
   );
 };
