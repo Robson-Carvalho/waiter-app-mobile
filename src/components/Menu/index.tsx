@@ -14,7 +14,9 @@ export const Menu = () => {
       renderItem={({ item: product }) => (
         <Product>
           <Image
-            source={{ uri: `http://localhost:3001/${product.imagePath}` }}
+            source={{
+              uri: `http://192.168.0.105:3001/${product.imagePath}`,
+            }}
           />
 
           <ProductDetails>
