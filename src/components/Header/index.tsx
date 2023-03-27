@@ -1,5 +1,5 @@
 import { Container } from "./styles";
-import { Text } from "../Text";
+import { Text } from "../Text/Text";
 
 export const Header = () => {
   return (

@@ -1,7 +1,7 @@
 import { FlatList } from "react-native";
 
 import { Category, Icon } from "./styles";
-import { Text } from "../Text";
+import { Text } from "../Text/Text";
 
 import { categories } from "../../mocks/categories";
 import { useState } from "react";

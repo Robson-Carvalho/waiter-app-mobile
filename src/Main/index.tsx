@@ -10,6 +10,8 @@ import { Header } from "../components/Header";
 import { Categories } from "../components/Categories";
 import { Menu } from "../components/Menu";
 
+import { Button } from "../components/Button";
+
 export const Main = () => {
   return (
     <>
@@ -23,7 +25,9 @@ export const Main = () => {
         </MenuContainer>
       </Container>
       <Footer>
-        <FooterContainer></FooterContainer>
+        <FooterContainer>
+          <Button onPress={() => alert("novo pedido")}>Novo Pedido</Button>
+        </FooterContainer>
       </Footer>
     </>
   );
