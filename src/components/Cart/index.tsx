@@ -15,12 +15,19 @@ import {
 } from "./styles";
 import { formatCurrency } from "../../utils/formartCurrency";
 import { Button } from "../Button";
+import { Product } from "../../types/Product";
 
 interface CartProps {
   cartItems: CartItem[];
+  onAdd: (product: Product) => void;
+  onDecrement: (product: Product) => void;
 }
 
-export const Cart = ({ cartItems }: CartProps) => {
+export const Cart = ({ cartItems, onAdd, onDecrement }: CartProps) => {
+  const total = cartItems.reduce((acc, cartItem) => {
+    return acc + cartItem.quantity * cartItem.product.price;
+  }, 0);
+
   return (
     <>
       <FlatList
@@ -51,10 +58,13 @@ export const Cart = ({ cartItems }: CartProps) => {
               </ProductDetails>
             </ProductContainer>
             <Actions>
-              <TouchableOpacity style={{ marginRight: 24 }}>
+              <TouchableOpacity
+                style={{ marginRight: 24 }}
+                onPress={() => onAdd(cartItem.product)}
+              >
                 <PlusCircle />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => onDecrement(cartItem.product)}>
                 <MinusCircle />
               </TouchableOpacity>
             </Actions>
@@ -67,7 +77,7 @@ export const Cart = ({ cartItems }: CartProps) => {
             <>
               <Text color="#666">Total</Text>
               <Text weight="600" size={20}>
-                {formatCurrency(87)}
+                {formatCurrency(total)}
               </Text>
             </>
           ) : (
