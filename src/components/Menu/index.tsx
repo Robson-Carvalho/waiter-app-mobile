@@ -14,7 +14,7 @@ import { PlusCircle } from "../Icons/PlusCircle";
 import { formatCurrency } from "../../utils/formartCurrency";
 import { ProductModal } from "../ProductModal";
 import { products } from "../../mocks/products";
-import { Product } from "../../types/product";
+import { Product } from "../../types/Product";
 
 export const Menu = () => {
   const [isModalVisible, setIsModalVisble] = useState(false);
