@@ -14,21 +14,12 @@ import { TableModal } from "../components/TableModal";
 import { Cart } from "../components/Cart";
 import { useState } from "react";
 import { CartItem } from "../types/CartItem";
-import { products } from "../mocks/products";
+import { Product } from "../types/Product";
 
 export const Main = () => {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState("");
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      quantity: 1,
-      product: products[0],
-    },
-    {
-      quantity: 2,
-      product: products[1],
-    },
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const handleSaveTable = (table: string) => {
     setSelectedTable(table);
@@ -51,7 +42,7 @@ export const Main = () => {
         </CategoriesContainer>
 
         <MenuContainer>
-          <Menu></Menu>
+          <Menu />
         </MenuContainer>
       </Container>
 
