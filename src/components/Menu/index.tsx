@@ -13,14 +13,15 @@ import { Text } from "../Text/Text";
 import { PlusCircle } from "../Icons/PlusCircle";
 import { formatCurrency } from "../../utils/formartCurrency";
 import { ProductModal } from "../ProductModal";
-import { products } from "../../mocks/products";
+
 import { Product } from "../../types/Product";
 
 interface MenuProps {
   onAddToCart: (product: Product) => void;
+  products: Product[];
 }
 
-export const Menu = ({ onAddToCart }: MenuProps) => {
+export const Menu = ({ onAddToCart, products }: MenuProps) => {
   const [isModalVisible, setIsModalVisble] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<null | Product>(null);
 
