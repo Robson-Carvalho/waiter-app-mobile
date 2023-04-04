@@ -16,20 +16,44 @@ import {
 import { formatCurrency } from "../../utils/formartCurrency";
 import { Button } from "../Button";
 import { Product } from "../../types/Product";
+import { OrderConfirmedModal } from "../OrderConfirmedModal";
+import { useState } from "react";
 
 interface CartProps {
   cartItems: CartItem[];
   onAdd: (product: Product) => void;
   onDecrement: (product: Product) => void;
+  onConfirmOrder: () => void;
 }
 
-export const Cart = ({ cartItems, onAdd, onDecrement }: CartProps) => {
+export const Cart = ({
+  cartItems,
+  onAdd,
+  onDecrement,
+  onConfirmOrder,
+}: CartProps) => {
+  const [isOrderConfirmedModalVisible, setIsOrderConfirmedModalVisible] =
+    useState(false);
   const total = cartItems.reduce((acc, cartItem) => {
     return acc + cartItem.quantity * cartItem.product.price;
   }, 0);
 
+  const handleConfirmOrder = () => {
+    setIsOrderConfirmedModalVisible(true);
+  };
+
+  const handleOk = () => {
+    onConfirmOrder();
+    setIsOrderConfirmedModalVisible(false);
+  };
+
   return (
     <>
+      <OrderConfirmedModal
+        visible={isOrderConfirmedModalVisible}
+        onOk={handleOk}
+      ></OrderConfirmedModal>
+
       <FlatList
         data={cartItems}
         keyExtractor={(cartItems) => cartItems.product._id}
@@ -87,7 +111,7 @@ export const Cart = ({ cartItems, onAdd, onDecrement }: CartProps) => {
 
         <Button
           disabled={cartItems.length > 0 ? false : true}
-          onPress={() => alert("oi")}
+          onPress={handleConfirmOrder}
         >
           Confirmar pedido
         </Button>
