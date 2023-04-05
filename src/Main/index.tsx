@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import {
   Container,
@@ -19,10 +18,12 @@ import { Cart } from "../components/Cart";
 import { CartItem } from "../types/CartItem";
 import { Product } from "../types/Product";
 import { ActivityIndicator } from "react-native";
+
 import { Text } from "../components/Text/Text";
 import { Empty } from "../components/Icons/Empty";
-
 import { Category } from "../types/Category";
+
+import { api } from "../utils/api";
 
 export const Main = () => {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
@@ -33,15 +34,23 @@ export const Main = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    Promise.all([
-      axios.get("http://192.168.0.105:3001/categories"),
-      axios.get("http://192.168.0.105:3001/products"),
-    ]).then(([categoriesResponde, productsResponse]) => {
-      setCategories(categoriesResponde.data);
-      setProducts(productsResponse.data);
-      setIsLoading(false);
-    });
+    Promise.all([api.get("/categories"), api.get("/products")]).then(
+      ([categoriesResponde, productsResponse]) => {
+        setCategories(categoriesResponde.data);
+        setProducts(productsResponse.data);
+        setIsLoading(false);
+      }
+    );
   }, []);
+
+  const handleSelectCategory = async (categoryId: string) => {
+    const route = !categoryId
+      ? `/products`
+      : `/categories/${categoryId}/products`;
+
+    const { data } = await api.get(route);
+    setProducts(data);
+  };
 
   const handleSaveTable = (table: string) => {
     setSelectedTable(table);
@@ -127,7 +136,10 @@ export const Main = () => {
         {!isLoading && (
           <>
             <CategoriesContainer>
-              <Categories categories={categories} />
+              <Categories
+                onSelecetCaregory={handleSelectCategory}
+                categories={categories}
+              />
             </CategoriesContainer>
 
             {products.length > 0 ? (
