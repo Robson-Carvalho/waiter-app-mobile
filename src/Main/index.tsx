@@ -32,6 +32,7 @@ export const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   useEffect(() => {
     Promise.all([api.get("/categories"), api.get("/products")]).then(
@@ -48,8 +49,10 @@ export const Main = () => {
       ? `/products`
       : `/categories/${categoryId}/products`;
 
+    setIsLoadingProducts(true);
     const { data } = await api.get(route);
     setProducts(data);
+    setIsLoadingProducts(false);
   };
 
   const handleSaveTable = (table: string) => {
@@ -142,17 +145,25 @@ export const Main = () => {
               />
             </CategoriesContainer>
 
-            {products.length > 0 ? (
-              <MenuContainer>
-                <Menu onAddToCart={handleAddToCart} products={products} />
-              </MenuContainer>
-            ) : (
+            {isLoadingProducts ? (
               <CenteredContainer>
-                <Empty />
-                <Text color="#666" style={{ marginTop: 24 }}>
-                  Nenhum produto foi encontrando!
-                </Text>
+                <ActivityIndicator color="#d73035" size="large" />
               </CenteredContainer>
+            ) : (
+              <>
+                {products.length > 0 ? (
+                  <MenuContainer>
+                    <Menu onAddToCart={handleAddToCart} products={products} />
+                  </MenuContainer>
+                ) : (
+                  <CenteredContainer>
+                    <Empty />
+                    <Text color="#666" style={{ marginTop: 24 }}>
+                      Nenhum produto foi encontrando!
+                    </Text>
+                  </CenteredContainer>
+                )}
+              </>
             )}
           </>
         )}
@@ -175,6 +186,7 @@ export const Main = () => {
               onAdd={handleAddToCart}
               onDecrement={handleDecremenetCartItem}
               onConfirmOrder={handleResetOrder}
+              selectedTable={selectedTable}
             />
           )}
         </FooterContainer>
