@@ -1,3 +1,5 @@
 import axios from "axios";
 
-export const api = axios.create({ baseURL: "http://192.168.0.105:3001" });
+export const api = axios.create({
+  baseURL: "https://waiter-app-api.vercel.app",
+});
